@@ -43,7 +43,7 @@ class TransactionserviceApplicationTests {
 	}
 
 	@AfterEach
-	public void cleanUpTestCreatedAccount() {
+	public void cleanUpTestCreatedTransaction() {
 		Transaction transaction = transactionRepository.findTopByOrderByIdDesc().orElse(null);
 		if(transaction != null) {
 			if(lastTransactionId != transaction.getId())
@@ -53,7 +53,7 @@ class TransactionserviceApplicationTests {
 
 	@Test
 	@Order(1)
-	void createTransaction_withValidParameters_returns201created() throws Exception {
+	void createTransaction_throughTheController_returns200OK() throws Exception {
 
 		CreateTransaction request = new CreateTransaction(1, 300.00);
 		mockMvc.perform(post("/api/v1/transactions/create")
@@ -64,7 +64,7 @@ class TransactionserviceApplicationTests {
 
 	@Test
 	@Order(2)
-	void createAccount_withValidParameters_returnsSuccessResponse() throws Exception {
+	void createTransaction_withValidParameters_returnsSuccessResponse() {
 		CreateTransaction request = new CreateTransaction(1, 2000.00);
 		BaseResponse res = transactionService.CreateTransaction(request);
 
