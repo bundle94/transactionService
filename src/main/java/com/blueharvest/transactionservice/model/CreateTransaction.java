@@ -4,6 +4,11 @@ public class CreateTransaction {
     private long accountId;
     private double amount;
 
+    public CreateTransaction (long accountId, double amount) {
+        this.accountId = accountId;
+        this.amount = amount;
+    }
+
     public long getAccountId() {
         return accountId;
     }
