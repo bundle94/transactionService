@@ -6,6 +6,8 @@ import com.blueharvest.transactionservice.model.CreateTransaction;
 import com.blueharvest.transactionservice.model.Transaction;
 import com.blueharvest.transactionservice.repository.TransactionRepository;
 import com.blueharvest.transactionservice.util.ResponseCodes;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +16,7 @@ import java.util.Date;
 @Service
 public class TransactionServiceImpl implements TransactionService {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(TransactionServiceImpl.class);
     private TransactionRepository transactionRepository;
 
     @Autowired
@@ -24,13 +27,17 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public BaseResponse CreateTransaction(CreateTransaction request) {
         BaseResponse response = new BaseResponse();
-        Transaction transaction = new Transaction(request.getAccountId(), request.getAmount(), new Date());
-        transactionRepository.save(transaction);
-        if(transaction.getId() > 0) {
+        try {
+            Transaction transaction = new Transaction(request.getAccountId(), request.getAmount(), new Date());
+            transactionRepository.save(transaction);
+            LOGGER.info("Transaction has been created successfully");
             response.setResponseCode(ResponseCodes.SUCCESS.getCode());
             response.setResponseMessage(ResponseCodes.SUCCESS.getMessage());
             return response;
         }
-        throw new TransactionCreationException(ResponseCodes.TRANSACTION_NOT_CREATED.getMessage());
+        catch (Exception ex) {
+            LOGGER.error("Transaction creation failed " + ex.getMessage());
+            throw new TransactionCreationException(ResponseCodes.TRANSACTION_NOT_CREATED.getMessage());
+        }
     }
 }

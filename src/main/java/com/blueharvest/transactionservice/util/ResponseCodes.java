@@ -3,8 +3,7 @@ package com.blueharvest.transactionservice.util;
 public enum ResponseCodes {
 
     SUCCESS("S01", "Successful"),
-    CUSTOMER_NOT_FOUND("E01", "Customer not found"),
-    TRANSACTION_NOT_CREATED("E02", "Transaction cannot be created");
+    TRANSACTION_NOT_CREATED("E01", "Transaction cannot be created");
 
 
     private String message;
