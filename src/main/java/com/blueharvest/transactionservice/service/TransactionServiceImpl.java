@@ -1,6 +1,7 @@
 package com.blueharvest.transactionservice.service;
 
 import com.blueharvest.transactionservice.Exception.TransactionCreationException;
+import com.blueharvest.transactionservice.Exception.TransactionNotFoundException;
 import com.blueharvest.transactionservice.model.BaseResponse;
 import com.blueharvest.transactionservice.model.CreateTransaction;
 import com.blueharvest.transactionservice.model.Transaction;
@@ -39,5 +40,19 @@ public class TransactionServiceImpl implements TransactionService {
             LOGGER.error("Transaction creation failed " + ex.getMessage());
             throw new TransactionCreationException(ResponseCodes.TRANSACTION_NOT_CREATED.getMessage());
         }
+    }
+
+    @Override
+    public BaseResponse<Transaction> fetchTransactions(long accountId) {
+        BaseResponse<Transaction> response = new BaseResponse<>();
+        // Fetching transaction by account id
+        Transaction transaction = transactionRepository.findByAccountId(accountId).orElse(null);
+        if(transaction == null)
+            throw new TransactionNotFoundException(ResponseCodes.TRANSACTION_NOT_FOUND.getMessage());
+        response.setResponseCode(ResponseCodes.SUCCESS.getCode());
+        response.setResponseMessage(ResponseCodes.SUCCESS.getMessage());
+        response.setData(transaction);
+        return response;
+
     }
 }

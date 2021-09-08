@@ -23,4 +23,15 @@ public class ExceptionAdvise {
         return new ErrorResponse(res);
 
     }
+
+    @ExceptionHandler({TransactionNotFoundException.class})
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseBody
+    public ErrorResponse handleTransactionNotFoundException(TransactionNotFoundException e) {
+        BaseResponse res = new BaseResponse();
+        res.setResponseCode(StringUtils.hasText(e.getCode()) ? e.getCode() : ResponseCodes.TRANSACTION_NOT_FOUND.getCode());
+        res.setResponseMessage(e.getMessage());
+        return new ErrorResponse(res);
+
+    }
 }
