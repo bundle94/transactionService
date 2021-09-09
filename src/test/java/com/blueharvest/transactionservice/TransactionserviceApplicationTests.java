@@ -1,12 +1,10 @@
 package com.blueharvest.transactionservice;
 
-import com.blueharvest.transactionservice.Exception.TransactionNotFoundException;
 import com.blueharvest.transactionservice.model.BaseResponse;
 import com.blueharvest.transactionservice.model.CreateTransaction;
 import com.blueharvest.transactionservice.model.Transaction;
 import com.blueharvest.transactionservice.repository.TransactionRepository;
 import com.blueharvest.transactionservice.service.TransactionService;
-import com.blueharvest.transactionservice.util.ResponseCodes;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +15,6 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
 import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -103,23 +100,6 @@ class TransactionserviceApplicationTests {
 		assertNotNull(res.getResponseCode());
 		assertNotNull(res.getResponseMessage());
 		//assertNotNull(res.get(0).getData());
-	}
-
-	@Test
-	@Order(6)
-	void fetchTransaction_withWrongAccountId_throwsException() throws Exception {
-		saveTransaction();
-		Random rd = new Random();
-		long accountId = rd.nextLong();
-
-		Exception exception = assertThrows(TransactionNotFoundException.class, () -> {
-			transactionService.fetchTransactions(accountId);
-		});
-
-		String expectedMessage = ResponseCodes.TRANSACTION_NOT_FOUND.getMessage();
-		String actualMessage = exception.getMessage();
-
-		assertTrue(actualMessage.contains(expectedMessage));
 	}
 
 	private void saveTransaction() {
