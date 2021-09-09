@@ -4,7 +4,7 @@ public enum ResponseCodes {
 
     SUCCESS("S01", "Successful"),
     TRANSACTION_NOT_CREATED("E01", "Transaction cannot be created"),
-    TRANSACTION_NOT_FOUND("E02", "Transaction not found");
+    TRANSACTION_NOT_FOUND("E02", "No transaction found for account");
 
 
     private String message;

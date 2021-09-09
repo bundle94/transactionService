@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.concurrent.Callable;
 
 @RestController
@@ -28,7 +29,7 @@ public class TransactionController {
     }
 
     @PostMapping("/create")
-    public Callable<ResponseEntity<BaseResponse>> createTransaction(@RequestBody CreateTransaction request) throws Exception {
+    public Callable<ResponseEntity<BaseResponse>> createTransaction(@RequestBody CreateTransaction request) {
         LOGGER.info("Received request for creating transaction");
         return () -> {
             BaseResponse response = transactionService.CreateTransaction(request);
@@ -37,11 +38,12 @@ public class TransactionController {
     }
 
     @GetMapping("/fetch/{accountId}")
-    public Callable<ResponseEntity<BaseResponse<Transaction>>> GetTransaction(@PathVariable long accountId) throws Exception {
+    public Callable<ResponseEntity<BaseResponse<List<Transaction>>>> GetTransaction(@PathVariable long accountId) {
         LOGGER.info("Received request for getting transactions by account");
         return () -> {
-            BaseResponse<Transaction> response = transactionService.fetchTransactions(accountId);
+            BaseResponse<List<Transaction>> response = transactionService.fetchTransactions(accountId);
             return new ResponseEntity<>(response, HttpStatus.OK);
         };
     }
+
 }

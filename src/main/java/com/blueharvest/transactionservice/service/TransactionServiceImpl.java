@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class TransactionServiceImpl implements TransactionService {
@@ -43,10 +44,10 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public BaseResponse<Transaction> fetchTransactions(long accountId) {
-        BaseResponse<Transaction> response = new BaseResponse<>();
+    public BaseResponse<List<Transaction>> fetchTransactions(long accountId) {
+        BaseResponse<List<Transaction>> response = new BaseResponse<>();
         // Fetching transaction by account id
-        Transaction transaction = transactionRepository.findByAccountId(accountId).orElse(null);
+        List<Transaction> transaction = transactionRepository.findAllByAccountId(accountId).orElse(null);
         if(transaction == null)
             throw new TransactionNotFoundException(ResponseCodes.TRANSACTION_NOT_FOUND.getMessage());
         response.setResponseCode(ResponseCodes.SUCCESS.getCode());
