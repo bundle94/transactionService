@@ -2,9 +2,9 @@
 
 1) To get started, I have Implemented swagger ui for this project to start up the application on local make sure you have created an <code>MSSQL</code> database with name <code>blueharvet</code>.
    In the root directory of the application run <code>mvn spring-boot:run</code>.
-   once application is up and running navigate to http://localhost:8080/accountservice/swagger-ui.html#/ to see the <code>Swagger</code> of the  account service API
+   once application is up and running navigate to http://localhost:8080/accountservice/swagger-ui.html#/ to see the <code>Swagger</code> of the transaction service API
 
-NOTE: I used <code>Flyway</code> for my database Migrations
+NOTE: I used <code>Flyway</code> for my database Migrations, and the implementation is on <code>account service API</code>, so you have to run <code>accountservice</code> project first.
 
 <h5>RUNNING WITH DOCKER</h5>
 
